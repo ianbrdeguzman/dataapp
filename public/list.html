@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="height=device-height width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Data App</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+</head>
+<body>
+    <div class="app-container">
+        <h1>Data App</h1>
+        <p>All data stored in the database can be retrieve thru get method on /api endpoint.</br>
+            
+        </p>
+        <p><a href="/">Input</a> | <a href="./list.html">List</a></p>
+    </div>
+    <script>
+        // fetch data
+        const getData = async () => {
+
+            // response await fetch
+            const response = await fetch('/api');
+
+            // data await response as json
+            const data = await response.json();  
+
+            // loop over all key in data
+            for (let key in data) {
+
+                // change timestamp into locale string date
+                const dateString = new Date(data[key].timestamp).toLocaleString();
+                const container = document.querySelector('.app-container');
+
+                // create new div
+                const div = `
+                        <div class="list">
+                        mood: ${data[key].mood}</br>
+                        latitude: ${data[key].lat}°, longitude: ${data[key].lon}°</br>
+                        timestamp: ${dateString}</br>
+                        </div>
+                        `
+                // insert new div into the HTML body
+                container.insertAdjacentHTML('beforeend', div);
+            }
+        };
+        // call getData
+        getData();
+    </script>
+</body>
+</html>
