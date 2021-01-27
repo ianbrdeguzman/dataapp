@@ -10,8 +10,6 @@ function setup() {
     // specify video size
     video.size(160, 120);
 
-    
-
     // add event listener to submit button
     const submitBtn = document.querySelector('#submit');
 

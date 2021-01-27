@@ -20,7 +20,7 @@ const getData = async () => {
                 mood: ${data[key].mood}</br>
                 latitude: ${data[key].lat}°, longitude: ${data[key].lon}°</br>
                 timestamp: ${dateString}</br>
-                <img src="${data[key].image64}"><br>
+                <img src="${data[key].image64}" alt="Your Mood"><br>
                 </div>
                 `
         // insert new div into the HTML body
