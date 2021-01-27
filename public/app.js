@@ -1,57 +1,76 @@
-const submitBtn = document.querySelector('#submit');
+// P5js onload function
+function setup() {
 
-const geolocate = () => {
-    // check if geolocation is in navigator
-    if('geolocation' in navigator) {
+    // remove automatically created canvas
+    noCanvas();
 
-        // obtain position using geolocation api getCurrentPosition method
-        // make callback position function async
-        navigator.geolocation.getCurrentPosition( async position => {
+    // create capture video
+    const video = createCapture(VIDEO);
 
-            // assign latitude and longitude
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
+    // specify video size
+    video.size(160, 120);
 
-            // get HTML DOM element value
-            const mood = document.querySelector('#mood').value;
-            const latEl = document.querySelector('#lat');
-            const lonEl = document.querySelector('#lon');
+    // initialize video
+    video.loadPixels();
 
-            // change text content of DOM elements
-            latEl.textContent = `${lat}°`;
-            lonEl.textContent = `${lon}°`;
-        
-            // create data object from latitude and longitude and mood
-            const data = { lat, lon, mood };
-            
-            // setup option for fetching data
-            const options = {
-                method: 'POST', // POST method for sending data
-                headers: {
-                    'Content-Type': 'application/json' // Type of data to be sent
-                },
-                body: JSON.stringify(data) // convert JS Object into a JSON string
-            };
+    // add event listener to submit button
+    const submitBtn = document.querySelector('#submit');
 
-            // check if input is not empty
-            if (mood) {
-                // assign response from fetch api enpoint
-                const response = await fetch('/api', options);
-        
-                // parse response data as json
-                const json = await response.json();
+    const geolocate = async () => {
 
-                
-            }
-        });
-    } else {
+        // get HTML DOM element value
+        const mood = document.querySelector('#mood').value;
+        const latEl = document.querySelector('#lat');
+        const lonEl = document.querySelector('#lon');
+        const image64 = video.canvas.toDataURL();
+
+        // check if geolocation is in navigator
+        if('geolocation' in navigator) {
     
-        // log if geolocation is not available
-        console.log('Geolocation is not available');
-    }
-};
+            // obtain position using geolocation api getCurrentPosition method
+            // make callback position function async
+            navigator.geolocation.getCurrentPosition( async position => {
+    
+                // assign latitude and longitude
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+    
+                // change text content of DOM elements
+                latEl.textContent = `${lat}°`;
+                lonEl.textContent = `${lon}°`;
 
-// call geolocate 
-geolocate();
-// added event listener to submit button
-submitBtn.addEventListener('click', geolocate);
+                // create data object from latitude and longitude and mood
+                const data = { lat, lon, mood, image64 };
+    
+                // setup option for fetching data
+                const options = {
+                    method: 'POST', // POST method for sending data
+                    headers: {
+                        'Content-Type': 'application/json' // Type of data to be sent
+                    },
+                    body: JSON.stringify(data) // convert JS Object into a JSON string
+                };
+        
+                // check if input is not empty
+                if (mood) {
+                    // assign response from fetch api enpoint
+                    const response = await fetch('/api', options);
+    
+                    // parse response data as json
+                    const json = await response.json();
+                    console.log(json);
+                }
+            });
+        } else {
+        
+            // log if geolocation is not available
+            console.log('Geolocation is not available');
+        }
+    };
+    
+    // call geolocate 
+    geolocate();
+    // added event listener to submit button
+    submitBtn.addEventListener('click', geolocate);
+}
+

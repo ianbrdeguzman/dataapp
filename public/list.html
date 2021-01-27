@@ -10,9 +10,9 @@
 </head>
 <body>
     <div class="app-container">
-        <h1>Data App</h1>
+        <h1>Data Selfie App</h1>
         <p>All data stored in the database can be retrieve thru get method on /api endpoint.</br>
-            
+            This page will list all data from the /api endpoint.
         </p>
         <p><a href="/">Input</a> | <a href="./list.html">List</a></p>
     </div>
@@ -37,6 +37,7 @@
                 const div = `
                         <div class="list">
                         mood: ${data[key].mood}</br>
+                        <img src="${data[key].image64}"><br>
                         latitude: ${data[key].lat}°, longitude: ${data[key].lon}°</br>
                         timestamp: ${dateString}</br>
                         </div>
