@@ -10,19 +10,20 @@ function setup() {
     // specify video size
     video.size(160, 120);
 
-    // initialize video
-    video.loadPixels();
+    
 
     // add event listener to submit button
     const submitBtn = document.querySelector('#submit');
 
     const geolocate = async () => {
+        // initialize video
+        video.loadPixels();
 
         // get HTML DOM element value
         const mood = document.querySelector('#mood').value;
         const latEl = document.querySelector('#lat');
         const lonEl = document.querySelector('#lon');
-        const image64 = video.canvas.toDataURL();
+        const image64 = video.canvas.toDataURL('image/png');
 
         // check if geolocation is in navigator
         if('geolocation' in navigator) {

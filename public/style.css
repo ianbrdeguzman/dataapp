@@ -41,6 +41,10 @@ div {
     margin: 1rem 0;
 }
 
+img {
+    border: 1px solid #272727;
+}
+
 footer {
     position: absolute;
     left: 50%;
